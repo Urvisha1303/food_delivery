@@ -4,6 +4,25 @@ import { StoreContext } from '../../context/Storecontext'
 
 const Placeorder = () => {
   const{getTotalCartAmount} = useContext(StoreContext)
+  const handlePayment = () => {
+    const options = {
+      key: "rzp_test_lCGWVGmMKjk0GP",
+      amount: (getTotalCartAmount() + 2) * 100, // Convert to paise
+      currency: "INR",
+      name: "Your Company Name",
+      description: "Test Transaction",
+      image: "https://example.com/your_logo", // Optional
+      handler: function (response) {
+        alert("Payment successful!");
+        console.log(response);
+      }
+    };
+    console.log( getTotalCartAmount());
+    
+    
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  }
   return (
     <form action="" className="place-order">
       <div className="place-order-left">
@@ -42,7 +61,7 @@ const Placeorder = () => {
               <b>${getTotalCartAmount() === 0 ? 0: getTotalCartAmount() + 2}</b>
             </div>
           </div>
-          <button >PROCEED TO PAYMENT</button>
+          <button type="button" onClick={handlePayment}>PROCEED TO PAYMENT</button>
         </div>
       </div>
     </form>
